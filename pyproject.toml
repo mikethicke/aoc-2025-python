@@ -17,5 +17,10 @@ aoc = "aoc.runner:main"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[dependency-groups]
+dev = [
+    "debugpy>=1.8.17",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/aoc"]
