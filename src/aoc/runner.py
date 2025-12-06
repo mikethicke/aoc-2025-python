@@ -1,8 +1,18 @@
 import argparse
 import importlib
+import re
 from pathlib import Path
 
 INPUTS_DIR = Path(__file__).resolve().parents[2] / "inputs"  # project_root/inputs
+
+
+def day_from_file(file_path: str) -> int:
+    """Extract day number from a file path like 'day05.py'."""
+    path = Path(file_path)
+    match = re.match(r"day(\d+)\.py$", path.name)
+    if not match:
+        raise SystemExit(f"Cannot extract day number from filename: {path.name}")
+    return int(match.group(1))
 
 
 def run_day(day: int, part: int | None = None, sample: bool = False):
@@ -45,7 +55,13 @@ def run_day(day: int, part: int | None = None, sample: bool = False):
 
 def main():
     parser = argparse.ArgumentParser(description="Run Advent of Code solutions")
-    parser.add_argument("day", type=int, help="Day number (1..25)")
+    parser.add_argument("day", type=int, nargs="?", help="Day number (1..25)")
+    parser.add_argument(
+        "--file",
+        "-f",
+        type=str,
+        help="Path to day file (extracts day number from filename)",
+    )
     parser.add_argument(
         "--part", "-p", type=int, choices=(1, 2), help="Run only part 1 or 2"
     )
@@ -56,4 +72,16 @@ def main():
         help="Use sample input (dayXX_sample.txt)",
     )
     args = parser.parse_args()
-    run_day(args.day, args.part, args.sample)
+
+    if args.file:
+        day = day_from_file(args.file)
+    elif args.day:
+        day = args.day
+    else:
+        parser.error("Either day number or --file must be provided")
+
+    run_day(day, args.part, args.sample)
+
+
+if __name__ == "__main__":
+    main()
