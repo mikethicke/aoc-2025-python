@@ -10,6 +10,16 @@
     "console": "integratedTerminal"
   },
   {
+    "label": "AOC Current File (sample input)",
+    "adapter": "Debugpy",
+    "request": "launch",
+    "module": "aoc.runner",
+    "args": ["--file", "$ZED_FILE", "-s"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "python": "${ZED_WORKTREE_ROOT}/.venv/bin/python",
+    "console": "integratedTerminal"
+  },
+  {
     "label": "AOC Current File (Part 1)",
     "adapter": "Debugpy",
     "request": "launch",
